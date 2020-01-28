@@ -1,0 +1,34 @@
+# This profile uses the docker-compose DNS names and is activated for the default docker-compose build
+
+spring:
+  datasource:
+    url: jdbc:postgresql://mls-db:5432/mls-auth?stringtype=unspecified
+    driver-class-name: org.postgresql.Driver
+    username: mls-auth
+    password: mls-auth-password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob.non_contextual_creation: true
+          time_zone: UTC
+
+application:
+  auth:
+    signing:
+      signing-key: file:/config/dev.key
+      renewal-validity: 10080
+      request-validity: 5
+    verification:
+      signing-key: file:/config/dev.pub
+  users:
+    admin: password
+
+logging:
+  config: /config/log-docker.xml
+  level:
+    root: warn
+    at.wrk.fmd.mls.auth: debug

@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  mls-auth:
+    image: wrk-fmd/mls-auth:${MLS_TAG:-latest}
+    build:
+      context: .
+      args:
+        MODULE: auth-service
+        APP: auth-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    volumes:
+      - type: bind
+        source: ${MLS_AUTH_CONFIG:-./auth-service/src/main/resources}
+        target: /config
+        read_only: true
+      - type: bind
+        source: ${MLS_LOG:-./log}
+        target: /log
+
+networks:
+  default:
+    name: mls-network
