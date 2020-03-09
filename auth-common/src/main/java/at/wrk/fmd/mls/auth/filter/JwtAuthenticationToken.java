@@ -22,7 +22,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     }
 
     private static Collection<? extends GrantedAuthority> getAuthorities(Claims claims) {
-        //noinspection unchecked
+        @SuppressWarnings("unchecked")
         List<String> authorities = claims.get("authorities", List.class);
         return authorities != null ? authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()) : null;
     }
@@ -38,7 +38,8 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     }
 
     public Collection<String> getUnits() {
-        //noinspection unchecked
-        return claims.get("units", Collection.class);
+        @SuppressWarnings("unchecked")
+        Collection<String> units = claims.get("units", Collection.class);
+        return units;
     }
 }

@@ -7,7 +7,7 @@ import at.wrk.fmd.mls.auth.entity.Unit;
 import at.wrk.fmd.mls.auth.service.TokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.JacksonSerializer;
+import io.jsonwebtoken.jackson.io.JacksonSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

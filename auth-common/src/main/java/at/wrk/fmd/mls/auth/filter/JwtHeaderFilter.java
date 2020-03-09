@@ -6,8 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.JacksonDeserializer;
-
+import io.jsonwebtoken.jackson.io.JacksonDeserializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -68,9 +67,10 @@ public class JwtHeaderFilter extends OncePerRequestFilter {
 
         String token = tokenHeader.substring(7);
         try {
-            final Claims claims = Jwts.parser()
+            final Claims claims = Jwts.parserBuilder()
                     .deserializeJsonWith(new JacksonDeserializer<>(objectMapper))
                     .setSigningKey(signingKey)
+                    .build()
                     .parseClaimsJws(token)
                     .getBody();
             Authentication authentication = new JwtAuthenticationToken(claims, new WebAuthenticationDetailsSource().buildDetails(request));
