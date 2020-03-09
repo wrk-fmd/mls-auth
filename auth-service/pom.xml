@@ -15,6 +15,13 @@
     <description>This module provides the Auth service itself</description>
 
     <dependencies>
+        <!-- API DTOs -->
+        <dependency>
+            <groupId>at.wrk.fmd.mls</groupId>
+            <artifactId>auth-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Common filters -->
         <dependency>
             <groupId>at.wrk.fmd.mls</groupId>
