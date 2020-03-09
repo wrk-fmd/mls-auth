@@ -1,5 +1,8 @@
 package at.wrk.fmd.mls.auth.entity;
 
+import java.util.stream.Collectors;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GenerationType;
 
 import javax.persistence.Table;
@@ -34,6 +37,7 @@ public class User implements UserDetails {
     private String password;
 
     @ElementCollection
+    @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
     @Column
@@ -41,7 +45,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return roles.stream().flatMap(r -> r.getAllGranted().stream()).collect(Collectors.toSet());
     }
 
     @Override
