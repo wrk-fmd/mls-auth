@@ -2,12 +2,14 @@ version: '3.7'
 
 services:
   mls-auth:
-    image: wrk-fmd/mls-auth:${MLS_TAG:-latest}
+    image: wrkfmdit/mls-auth:${MLS_TAG:-latest}
     build:
       context: .
       args:
         MODULE: auth-service
         APP: auth-service
+    ports:
+      - 8092:8080
     environment:
       SPRING_PROFILES_ACTIVE: docker
     volumes:
