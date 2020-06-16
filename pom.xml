@@ -6,11 +6,11 @@
     <parent>
         <groupId>at.wrk.fmd.mls</groupId>
         <artifactId>mls-parent</artifactId>
-        <version>3.0.0-RELEASE</version>
+        <version>3.0.3-RELEASE</version>
     </parent>
 
     <artifactId>auth-base</artifactId>
-    <version>3.0.0-RELEASE</version>
+    <version>3.0.1-RELEASE</version>
     <packaging>pom</packaging>
     <name>Auth service base module</name>
 
