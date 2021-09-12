@@ -8,6 +8,7 @@ services:
       args:
         MODULE: auth-service
         APP: auth-service
+      network: host
     ports:
       - 8092:8080
     environment:
