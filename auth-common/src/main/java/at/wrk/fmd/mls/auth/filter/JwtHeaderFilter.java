@@ -45,7 +45,7 @@ public class JwtHeaderFilter extends OncePerRequestFilter {
         final String tokenHeader = request.getHeader("Authorization");
         if (tokenHeader == null || !tokenHeader.startsWith("Bearer ")) {
             // Invalid header
-            log.warn("Received invalid Authorization token header: {}", tokenHeader);
+            log.info("Received invalid Authorization token header: {}", tokenHeader);
             return;
         }
 
