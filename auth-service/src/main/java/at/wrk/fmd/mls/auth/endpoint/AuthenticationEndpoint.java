@@ -6,7 +6,8 @@ import at.wrk.fmd.mls.auth.dto.auth.AuthRequestDto;
 import at.wrk.fmd.mls.auth.dto.auth.AuthResponseDto;
 import at.wrk.fmd.mls.auth.filter.JwtAuthenticationToken;
 import at.wrk.fmd.mls.auth.service.AuthenticationService;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -33,7 +33,7 @@ public class AuthenticationEndpoint {
     }
 
     @PostMapping
-    @ApiOperation("Authenticates a user with username and password as credentials")
+    @Operation(summary = "Authenticates a user with username and password as credentials")
     public AuthResponseDto authenticate(@Valid @RequestBody AuthRequestDto authRequest) {
         String token = authenticationService.authenticate(authRequest);
         return new AuthResponseDto(token);
@@ -41,8 +41,8 @@ public class AuthenticationEndpoint {
 
     @GetMapping
     @PreAuthorize("hasAuthority('RENEWAL')")
-    @ApiOperation("Returns an authentication token for normal requests based on a given renewal token")
-    public AuthResponseDto getRequestToken(@ApiIgnore JwtAuthenticationToken authentication) {
+    @Operation(summary = "Returns an authentication token for normal requests based on a given renewal token")
+    public AuthResponseDto getRequestToken(@Parameter(hidden = true) JwtAuthenticationToken authentication) {
         String token = authenticationService.getRequestToken(authentication);
         return new AuthResponseDto(token);
     }

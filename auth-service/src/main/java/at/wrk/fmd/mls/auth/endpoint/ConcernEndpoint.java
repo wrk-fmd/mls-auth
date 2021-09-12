@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import at.wrk.fmd.mls.auth.dto.concern.ConcernDto;
 import at.wrk.fmd.mls.auth.service.ConcernService;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +29,7 @@ public class ConcernEndpoint {
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROOT')")
-    @ApiOperation("Get all concerns")
+    @Operation(summary = "Get all concerns")
     public Collection<ConcernDto> getConcerns() {
         return concernService.getConcerns();
     }
