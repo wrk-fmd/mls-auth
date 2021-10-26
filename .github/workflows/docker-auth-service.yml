@@ -28,14 +28,8 @@ jobs:
               </servers>
           </settings>
           EOF
-
-          if [[ -n "${GITHUB_TOKEN}" ]]; then
-            echo "not empty"
-          else
-            echo "empty"
-          fi
         env:
-          GITHUB_TOKEN: "${{ secrets.token }}"
+          GITHUB_TOKEN: "${{ secrets.MLS_PACKAGES_TOKEN }}"
       - name: Run Docker buildscript
         run: ./docker-build.sh
         env:
