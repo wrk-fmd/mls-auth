@@ -1,0 +1,20 @@
+name: Deploy mls-auth Maven artifacts
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+    paths:
+      - .github/workflows/maven-deploy-auth.yml
+      - auth-api/**
+      - auth-common/**
+      - pom.xml
+
+jobs:
+  deploy:
+    uses: wrk-fmd/mls-packages/.github/workflows/maven-deploy.yml@main
+    with:
+      directory: .
+    secrets:
+      token: ${{ secrets.MLS_PACKAGES_TOKEN }}
