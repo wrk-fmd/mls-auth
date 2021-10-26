@@ -1,0 +1,37 @@
+name: Build mls-auth-service Docker image
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+
+jobs:
+  docker-build:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create settings file
+        run: |
+          cat << EOF > /tmp/m2-settings.xml
+          <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+              <servers>
+                  <server>
+                      <id>github</id>
+                      <username>${GITHUB_ACTOR}</username>
+                      <password>${GITHUB_TOKEN}</password>
+                  </server>
+              </servers>
+          </settings>
+          EOF
+          cat /tmp/m2-settings.xml
+        env:
+          GITHUB_TOKEN: "${{ secrets.token }}"
+      - name: Run Docker buildscript
+        run: ./docker-build.sh
+        env:
+          MLS_M2_SETTINGS: "/tmp/m2-settings.xml"
