@@ -30,7 +30,16 @@ jobs:
           EOF
         env:
           GITHUB_TOKEN: "${{ secrets.MLS_PACKAGES_TOKEN }}"
-      - name: Run Docker buildscript
-        run: ./docker-build.sh
-        env:
-          MLS_M2_SETTINGS: "/tmp/m2-settings.xml"
+
+      - name: Build
+        uses: docker/build-push-action@v2
+        with:
+          build-args: |
+            MODULE=auth-service
+            APP=auth-service
+          secret-files: |
+            m2-settings=/tmp/m2-settings.xml
+#      - name: Run Docker buildscript
+#        run: ./docker-build.sh
+#        env:
+#          MLS_M2_SETTINGS: "/tmp/m2-settings.xml"
