@@ -41,6 +41,12 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.MLS_PACKAGES_TOKEN }}"
 
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Build
         uses: docker/build-push-action@v2
         with:
@@ -51,7 +57,4 @@ jobs:
             m2-settings=/tmp/m2-settings.xml
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-#      - name: Run Docker buildscript
-#        run: ./docker-build.sh
-#        env:
-#          MLS_M2_SETTINGS: "/tmp/m2-settings.xml"
+          push: true
