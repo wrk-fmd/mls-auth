@@ -14,7 +14,5 @@ on:
 jobs:
   deploy:
     uses: wrk-fmd/mls-packages/.github/workflows/maven-deploy.yml@main
-    with:
-      directory: "./"
     secrets:
       token: ${{ secrets.MLS_PACKAGES_TOKEN }}
