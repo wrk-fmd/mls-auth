@@ -28,7 +28,12 @@ jobs:
               </servers>
           </settings>
           EOF
-          cat /tmp/m2-settings.xml
+
+          if [[ -n "${GITHUB_TOKEN}" ]]; then
+            echo "not empty"
+          else
+            echo "empty"
+          fi
         env:
           GITHUB_TOKEN: "${{ secrets.token }}"
       - name: Run Docker buildscript
