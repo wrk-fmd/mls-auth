@@ -28,7 +28,7 @@ COPY ./ ./
 
 # Build the requested module and dependencies
 RUN --mount=type=cache,target=/root/.m2/repository \
-    mvn -q package -pl ${MODULE} -am
+    mvn -q package -pl "${MODULE}" -am
 
 # Extract the JAR
 ARG APP
