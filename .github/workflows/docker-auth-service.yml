@@ -7,54 +7,13 @@ on:
       - dev
 
 jobs:
-  docker-build:
-    name: Build Docker image
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Docker metadata
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: wrkfmdit/mls-auth
-          tags: |
-            type=ref,event=branch
-            type=sha
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-
-      - name: Create settings file
-        run: |
-          cat << EOF > /tmp/m2-settings.xml
-          <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
-              <servers>
-                  <server>
-                      <id>github</id>
-                      <username>${GITHUB_ACTOR}</username>
-                      <password>${GITHUB_TOKEN}</password>
-                  </server>
-              </servers>
-          </settings>
-          EOF
-        env:
-          GITHUB_TOKEN: "${{ secrets.MLS_PACKAGES_TOKEN }}"
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build
-        uses: docker/build-push-action@v2
-        with:
-          build-args: |
-            MODULE=auth-service
-            APP=auth-service
-          secret-files: |
-            m2-settings=/tmp/m2-settings.xml
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          push: true
+  deploy:
+    uses: wrk-fmd/mls-packages/.github/workflows/docker-build.yml@main
+    with:
+      PROJECT_MODULE: auth-service
+      PROJECT_APP: auth-service
+      DOCKER_NAME: wrkfmdit/mls-auth
+    secrets:
+      MLS_PACKAGES_TOKEN: ${{ secrets.MLS_PACKAGES_TOKEN }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
