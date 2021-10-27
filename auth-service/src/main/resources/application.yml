@@ -1,8 +1,18 @@
 spring:
   profiles:
     active: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
   jpa:
-    open-in-view: false
+    open-in-view: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob.non_contextual_creation: true
+          time_zone: UTC
+
 logging:
   level:
     root: warn
+    at.wrk.fmd.mls.auth: warn

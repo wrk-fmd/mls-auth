@@ -10,9 +10,11 @@ services:
         APP: auth-service
       network: host
     ports:
-      - 8092:8080
+      - "8092:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
+    tmpfs:
+      - /tmp
     volumes:
       - type: bind
         source: ${MLS_AUTH_CONFIG:-./auth-service/src/main/resources}
